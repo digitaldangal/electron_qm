@@ -1,0 +1,27 @@
+{
+  "name": "electron_qm",
+  "version": "1.0.0",
+  "description": "a \"quality management\" program",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrueMGF/electron_qm.git"
+  },
+  "keywords": [
+    "electron",
+    "node",
+    "js"
+  ],
+  "author": "baabaablackgoat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TrueMGF/electron_qm/issues"
+  },
+  "homepage": "https://github.com/TrueMGF/electron_qm#readme",
+  "devDependencies": {
+    "electron": "1.7.12"
+  }
+}
