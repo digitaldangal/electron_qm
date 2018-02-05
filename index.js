@@ -1,29 +1,61 @@
 //Setting up environment
 const settings = require("./settings.json");
+if (!settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
 const shell = require("electron").shell;
 const fs = require("fs");
 window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/jquery.min.js");
 
-//Scan provided directory structure
-fs.readdir(settings.directory,(err, files)=>{
-    if (err) console.log(err);
+//let's do this properly - recursive directory scanning
+const scandir = function(directory){
+    let output = [];
+    let files = fs.readdirSync(directory);
     for (let i=0;i<files.length;i++){
-        fs.stat(settings.directory+"/"+files[i],(err,stats)=>{
-            if (err) console.log(err);
-            if (stats.isFile()){
-                $("#dirlist").append(`<p class="external" data-target="${files[i]}">${files[i]}</p>`);
-            } else if (stats.isDirectory()){
-                //do some recursion
-            }
-        });
+        let filestats = fs.statSync(directory+files[i]);
+        if (filestats.isFile()){
+            output.push();
+            console.log(`file added - ${output}`);
+        } else if (filestats.isDirectory()){
+            output.push(scandir(`${directory}${files[i]}/`));
+        }
     }
-    //Opening items
-    $(".external").click(function(){
-        let target = $(this).data("target");
-        console.log(settings.directory+"/"+target);
-        shell.openItem(settings.directory+"/"+target);
+    console.log(output);
+    return output;
+};
+
+let allfiles = scandir(settings.directory);
+
+/* this doesn't work, I suck at async
+const scandir = function(directory,callback){
+    let output = [];
+    fs.readdir(directory,(err,files)=>{
+        if (err) console.log(err);
+        console.log(`Found the following files in ${directory}: ${files}`);
+        for (let i=0;i<files.length;i++){
+            fs.stat(directory+files[i],(err,stats)=>{
+                if (err) console.log(err);
+                if (stats.isFile()){
+                    console.log(`found ${directory}${files[i]}, pushing to output`);
+                    output.push();
+                }
+                else if (stats.isDirectory()){
+                    console.log(`found directory ${directory}${files[i]}, attempting to be recursive`);
+                    output.push(scandir(`${directory}${files[i]}/`,callback));
+                }
+            });
+        }
+        callback(output);
     });
-})
+};
+
+let allthefiles = scandir(settings.directory,callback=>{console.log(callback);return callback;});
+*/
+//Opening items
+$(".external").click(function(){
+    let target = $(this).data("target");
+    console.log(settings.directory+"/"+target);
+    shell.openItem(settings.directory+"/"+target);
+});
+
 
 //Watch directory for changes (use this to alert / check for modified files)
 //Not completely implemented. Currently just a proof of concept.
