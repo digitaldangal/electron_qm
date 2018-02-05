@@ -23,5 +23,8 @@
   "homepage": "https://github.com/TrueMGF/electron_qm#readme",
   "devDependencies": {
     "electron": "1.7.12"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1"
   }
 }

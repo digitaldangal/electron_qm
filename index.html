@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> 
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> <!-- Replace this with local files eventually -->
         <link rel="stylesheet" type="text/css" href="style/main.css">
         <title>Electron QM</title>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> <!-- Replace this with local files eventually -->
     </head>
     <body>
         <header>
-            <a id="button_min">-</a><a id="button_max">[]</a><a id="button_exit">x</a>
+            <div id="header_container">
+                <div id="title">Electron QM</div>
+                <div><a id="button_min"><i class="far fa-window-minimize"></i></a><a id="button_max"><i class="far fa-window-maximize"></i></a><a id="button_exit"><i class="fas fa-times"></i></a></div>
+            </div>
         </header>
         <div id="outer">
             <div id="wrapper">
@@ -15,57 +20,19 @@
                         <ul>
                             <li class="active">View</li>
                             <li>Edit</li>
+                            <li>History</li>
                             <li>Settings</li>
                             <li>About</li>
                             <li>Help</li>
                         </ul>
                     </aside>
                     <main>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-                        <p>lots of text</p>
-
+                        <section>
+                            <a class="external" data-target="Checkliste für Knirscherschiene Kontrolle.docx">hello</a>
+                        </section>
                     </main>
             </div>
         </div>
-        <footer>
-            footer
-        </footer>
     </body>
     <script src="index.js"></script>
 </html>
