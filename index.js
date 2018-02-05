@@ -7,7 +7,22 @@ window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/j
 //Scan provided directory structure
 fs.readdir(settings.directory,(err, files)=>{
     if (err) console.log(err);
-    console.log(files);
+    for (let i=0;i<files.length;i++){
+        fs.stat(settings.directory+"/"+files[i],(err,stats)=>{
+            if (err) console.log(err);
+            if (stats.isFile()){
+                $("#dirlist").append(`<p class="external" data-target="${files[i]}">${files[i]}</p>`);
+            } else if (stats.isDirectory()){
+                //do some recursion
+            }
+        });
+    }
+    //Opening items
+    $(".external").click(function(){
+        let target = $(this).data("target");
+        console.log(settings.directory+"/"+target);
+        shell.openItem(settings.directory+"/"+target);
+    });
 })
 
 //Watch directory for changes (use this to alert / check for modified files)
@@ -23,13 +38,6 @@ let watcher = fs.watch(settings.directory,{recursive:true},(type,filename)=>{
 //watcher.close();
 
 
-//Opening items
-
-$(".external").click(function(){
-    let target = $(this).data("target");
-    console.log(settings.directory+"/"+target);
-    shell.openItem(settings.directory+"/"+target);
-});
 
 //Window Interaction
 const remote = require('electron').remote;
