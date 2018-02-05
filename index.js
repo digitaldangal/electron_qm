@@ -4,51 +4,13 @@ if (!settings.directory.endsWith("/")){settings.directory = settings.directory.c
 const shell = require("electron").shell;
 const fs = require("fs");
 window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/jquery.min.js");
+const completedirtree = require("complete-directory-tree");
 
-//let's do this properly - recursive directory scanning
-const scandir = function(directory){
-    let output = [];
-    let files = fs.readdirSync(directory);
-    for (let i=0;i<files.length;i++){
-        let filestats = fs.statSync(directory+files[i]);
-        if (filestats.isFile()){
-            output.push();
-            console.log(`file added - ${output}`);
-        } else if (filestats.isDirectory()){
-            output.push(scandir(`${directory}${files[i]}/`));
-        }
-    }
-    console.log(output);
-    return output;
-};
+//get the directory tree
+let files = completedirtree(settings.directory);
+console.log(files);
 
-let allfiles = scandir(settings.directory);
 
-/* this doesn't work, I suck at async
-const scandir = function(directory,callback){
-    let output = [];
-    fs.readdir(directory,(err,files)=>{
-        if (err) console.log(err);
-        console.log(`Found the following files in ${directory}: ${files}`);
-        for (let i=0;i<files.length;i++){
-            fs.stat(directory+files[i],(err,stats)=>{
-                if (err) console.log(err);
-                if (stats.isFile()){
-                    console.log(`found ${directory}${files[i]}, pushing to output`);
-                    output.push();
-                }
-                else if (stats.isDirectory()){
-                    console.log(`found directory ${directory}${files[i]}, attempting to be recursive`);
-                    output.push(scandir(`${directory}${files[i]}/`,callback));
-                }
-            });
-        }
-        callback(output);
-    });
-};
-
-let allthefiles = scandir(settings.directory,callback=>{console.log(callback);return callback;});
-*/
 //Opening items
 $(".external").click(function(){
     let target = $(this).data("target");

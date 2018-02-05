@@ -13,11 +13,14 @@ header{
     position:fixed;
     text-align:right;
     background-color: #23272a;
-    -webkit-app-region: drag;
 }
 #header_container {
     display: flex;
     justify-content: space-between;
+    -webkit-app-region: drag;
+}
+#header_container > * {
+    -webkit-app-region: no-drag;
 }
 header a{
     display: inline-block;
