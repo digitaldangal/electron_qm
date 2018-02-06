@@ -1,18 +1,47 @@
 //Setting up environment
-/* const completedirtree = require("complete-directory-tree");
-let files = completedirtree(settings.directory); */
-const settings = require("./settings.json");
-if (!settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
 const shell = require("electron").shell;
 const fs = require("fs");
+let settings,structure;
 window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/jquery.min.js");
+
+//settings - check if they exist and are complete, if not, copy them from res/templates/settings.json and alert the user.
+try {
+    fs.accessSync("settings.json","fs.constants.W_OK"); //Write permission required for UI changes
+    settings = require("settings.json");
+    let requiredsettings = ["directory"];
+    for (let i=0;i<requiredsettings.length;i++){
+        if (!settings.hasOwnProperty(requiredsettings[i])){
+            throw `ERROR: settings.json incomplete or broken. Exception thrown at property ${requiredsettings[i]}`;
+        }
+    }
+} catch (err) {
+    fs.copyFileSync("res/templates/settings.json","settings.json");
+    settings = require("settings.json");
+    //alert function
+}
+if (!settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
+
+//structure - check if it exists, else use template structure from res/templates/structure.json and alert the user.
+try {
+    fs.accessSync("structure.json","fs.constants.W_OK"); //Write permission required for UI changes
+    settings = require("structure.json");
+} catch (err) {
+    fs.copyFileSync("res/templates/structure.json","structure.json");
+    settings = require("structure.json");
+    //alert function
+}
+
+structure = require("./structure.json");
+
 //check if directory is ok
 try {
     fs.accessSync(settings.directory,"fs.constants.W_OK");
     console.log("Access to directory is OK");
 } catch (err){
     throw error("Cannot write to the directory specified!",err);
+    //Alert the user.
 }
+
 
 //Target dir should have three directories at all times: current, editing, legacy
 //current will contain files accessible by view, Editing will have the versions that are being edited until confirmed good, Legacy has old versions thaat were overwritten through edits 
@@ -31,8 +60,6 @@ chkmkdir("current");
 chkmkdir("editing");
 chkmkdir("legacy");
 
-
-let structure = require("./structure.json");
 const loadViewStructure = function(name){
     let $ui_simple = $("#ui_simple");
     $ui_simple.empty();

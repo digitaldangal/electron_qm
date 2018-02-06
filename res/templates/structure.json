@@ -1,0 +1,25 @@
+{
+    "main":[
+        {
+            "text":"You have not configured the structure yet!",
+            "type": "file",
+            "target": "foo.txt"
+        },{
+            "text":"Please enter edit mode.",
+            "type":"sub",
+            "target": "secondary"
+        }
+    ],
+    "secondary":[
+        {
+            "text":"hi",
+            "type":"file",
+            "target": "test.txt"
+        },
+        {
+            "text": "back",
+            "type": "sub",
+            "target": "main"
+        }
+    ]
+}
