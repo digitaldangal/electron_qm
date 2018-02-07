@@ -77,3 +77,34 @@ main > section{
     width: 100%;
 }
 
+
+/*Alert Box formatting*/
+#alert {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: none;
+}
+#alert_container{
+    position: relative;
+    left: -50%;
+    top: -50%;
+    border: 2px solid gray;
+    padding: 10px;
+    border-radius: 5px;
+}
+#alert_header{
+    border-bottom: 2px solid gray;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    min-height: 20px;
+}
+#alert_x{
+    border: 1px solid gray;
+    border-radius: 3px;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 15px;
+}

@@ -1,37 +1,50 @@
 //Setting up environment
 const shell = require("electron").shell;
-const fs = require("fs");
+const fs = require("fs-extra");
+require.extensions['.txt'] = function (module, filename) { //making txt files require-able, thanks stackoverflow
+    module.exports = fs.readFileSync(filename, 'utf8');
+};
+const trumpipsum = require("./res/trumpipsum.txt");
 let settings,structure;
 window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/jquery.min.js");
+
+//alert function
+const alertbox = function(text,title,level){
+    if (title) {$("#alert_header span").html(title);}else{$("#alert_header span").html("Warning");}
+    if (text) {$("#alert_container p").html(text);}else{$("#alert_container p").html(trumpipsum);}
+    $("#alert").show();
+}
+let alertcloselistener = $("#alert_header i").click(()=>{$("#alert").hide;});
+
+alertbox("I have the best text");
 
 //settings - check if they exist and are complete, if not, copy them from res/templates/settings.json and alert the user.
 try {
     fs.accessSync("settings.json","fs.constants.W_OK"); //Write permission required for UI changes
-    settings = require("settings.json");
+    settings = require("./settings.json");
     let requiredsettings = ["directory"];
     for (let i=0;i<requiredsettings.length;i++){
         if (!settings.hasOwnProperty(requiredsettings[i])){
-            throw `ERROR: settings.json incomplete or broken. Exception thrown at property ${requiredsettings[i]}`;
+            throw new Error(`settings.json incomplete or broken. Exception thrown at property ${requiredsettings[i]}`);
         }
     }
 } catch (err) {
-    fs.copyFileSync("res/templates/settings.json","settings.json");
-    settings = require("settings.json");
+    fs.copySync("res/templates/settings.json","settings.json");
+    settings = require("./settings.json");
     //alert function
 }
-if (!settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
+if (settings.directory && !settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
 
 //structure - check if it exists, else use template structure from res/templates/structure.json and alert the user.
 try {
     fs.accessSync("structure.json","fs.constants.W_OK"); //Write permission required for UI changes
-    settings = require("structure.json");
+    structure = require("./structure.json");
 } catch (err) {
-    fs.copyFileSync("res/templates/structure.json","structure.json");
-    settings = require("structure.json");
+    fs.copySync("res/templates/structure.json","structure.json");
+    structure = require("./structure.json");
     //alert function
 }
 
-structure = require("./structure.json");
 
 //check if directory is ok
 try {
