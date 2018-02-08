@@ -15,7 +15,7 @@ const alertbox = function(text,title){
     $("#alert").show();
     //maybe make level cause different behaviour
 }
-let alertcloselistener = $("#error_x").click(()=>{console.log("clicky clickyy");$("#alert").hide;});
+let alertcloselistener = $("#error_x").click(()=>{$("#alert").hide()});
 
 //settings - check if they exist and are complete, if not, copy them from res/templates/settings.json and alert the user.
 try {
@@ -135,3 +135,4 @@ document.getElementById("button_max").addEventListener("click",(err)=>{
 document.getElementById("button_exit").addEventListener("click",(err)=>{
     remote.getCurrentWindow().close();
 });
+

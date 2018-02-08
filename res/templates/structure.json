@@ -3,7 +3,9 @@
         {
             "text":"No structure available",
             "type": "file",
-            "target": "foo.txt"
+            "target": "foo.txt",
+            "color": "red",
+            "backgroundcolor": "#7289DA"
         },{
             "text":"Enter edit mode",
             "type":"sub",

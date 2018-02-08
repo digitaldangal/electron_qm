@@ -3,6 +3,7 @@ html,body{
     background-color: #2c2f33;
     color: #fff;
     margin: 0;
+    cursor: default;
 }
 p {
     margin: 0;
@@ -27,6 +28,7 @@ header a{
     min-width: 40px;
     text-align: center;
     height: 100%;
+    cursor: pointer;
 }
 header a:hover{
     background-color: #33383d;
@@ -60,6 +62,7 @@ aside ul li{
     width: 100%;
     line-height: 40px;
     text-align: center;
+    cursor: pointer;
 }
 aside ul li:hover{
     background-color: #33383d;
@@ -87,6 +90,7 @@ main > section{
     border: 1px solid #111;
     display: inline-block;
     opacity: 0.7;
+    cursor: pointer;
 }
 .button:hover{
     opacity: 1.0;
@@ -100,6 +104,7 @@ main > section{
     top: 50%;
     display: none;
     user-select: none;
+    min-width: 250px;
 }
 #alert_container{
     position: relative;
@@ -117,12 +122,7 @@ main > section{
     min-height: 20px;
 }
 #alert_x{
-    border: 1px solid gray;
-    border-radius: 3px;
-    width: 15px;
-    height: 15px;
-    text-align: center;
-    line-height: 15px;
+    cursor: pointer;
 }
 
 
