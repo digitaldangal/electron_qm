@@ -79,6 +79,7 @@ main{
 main > section{
     padding: 20px;
     width: 100%;
+    display: none;
 }
 .button{
     height: 40px;
@@ -89,7 +90,7 @@ main > section{
     background-color: #33383d;
     border: 1px solid #111;
     display: inline-block;
-    opacity: 0.7;
+    opacity: 0.85;
     cursor: pointer;
 }
 .button:hover{

@@ -5,7 +5,7 @@
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> <!-- Replace this with local files eventually -->
         <link rel="stylesheet" type="text/css" href="style/main.css">
         <title>Electron QM</title>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> <!-- Replace this with local files eventually -->
+        <script defer src="res/fontawesome-all.min.js"></script>
     </head>
     <body>
         <header>
@@ -18,18 +18,33 @@
             <div id="wrapper">
                     <aside>
                         <ul>
-                            <li class="active"><i class="fas fa-home"></i></li>
-                            <li><i class="far fa-edit"></i></li>
-                            <li><i class="far fa-clock"></i></li>
-                            <li><i class="fas fa-wrench"></i></li>
-                            <li><i class="fas fa-info"></i></li>
-                            <li><i class="far fa-question-circle"></i></li>
+                            <li class="active" data-target="view"><i class="far fa-home"></i></li>
+                            <li data-target="edit"><i class="far fa-edit"></i></li>
+                            <li data-target="versioning"><i class="far fa-code-branch"></i></li>
+                            <li data-target="settings"><i class="far fa-cog"></i></li>
+                            <li data-target="info"><i class="far fa-info"></i></li>
+                            <li data-target="help"><i class="far fa-question-circle"></i></li>
                         </ul>
                     </aside>
                     <main>
-                        <section id="ui_simple">
+                        <section id="ui_view">
                             <div class="button" data-btntype="sub" data-target="">Next Submenu</div>
                             <div class="button" data-btntype="file" data-target="test.txt">Example File</div>
+                        </section>
+                        <section id="ui_edit">
+                            edit mode
+                        </section>
+                        <section id="ui_versioning">
+                            versioning mode
+                        </section>
+                        <section id="ui_settings">
+                            settings
+                        </section>
+                        <section id="ui_info">
+                            information
+                        </section>
+                        <section id="ui_help">
+                            help
                         </section>
                     </main>
             </div>

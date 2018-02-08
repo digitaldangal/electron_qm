@@ -14,8 +14,8 @@ const alertbox = function(text,title){
     if (text) {$("#alert_container p").html(text);}else{$("#alert_container p").html(trumpipsum);}
     $("#alert").show();
     //maybe make level cause different behaviour
-}
-let alertcloselistener = $("#error_x").click(()=>{$("#alert").hide()});
+};
+let alertcloselistener = $("#error_x").click(()=>$("#alert").hide());
 
 //settings - check if they exist and are complete, if not, copy them from res/templates/settings.json and alert the user.
 try {
@@ -50,8 +50,8 @@ try {
     fs.accessSync(settings.directory,"fs.constants.W_OK");
     console.log("Access to directory is OK");
 } catch (err){
-    throw Error("Cannot write to the directory specified!",err);
     alertbox("The program is unable to write to the directory specified in the settings, or the directory does not exist! Please double-check your settings.");
+    throw Error("Cannot write to the directory specified!",err);
 }
 
 
@@ -66,29 +66,33 @@ const chkmkdir = function(dir){
         console.log(`Couldn't find directory ${dir}, making one`);
         fs.mkdirSync(`${settings.directory}${dir}`);
     }
-} 
-
+};
 chkmkdir("current");
 chkmkdir("editing");
 chkmkdir("legacy");
 
+const changeUI = function(type){
+    $("main section").hide();
+    $(`#ui_${type}`).show();
+};
+changeUI("view");
+
 const loadViewStructure = function(name){
-    let $ui_simple = $("#ui_simple");
-    $ui_simple.empty();
+    let $ui_view = $("#ui_view");
+    $ui_view.empty();
     if (!structure.hasOwnProperty(name)){
         console.log("Error - Structure reference for "+name+" does not exist");
         return false;
     }
     let temp_data = structure[name];
     for (let i=0;i<temp_data.length;i++){
-        $ui_simple.append(`<div class="button" data-btntype="${temp_data[i].type}" data-target="${temp_data[i].target}">${temp_data[i].text}</div>`);
-        if (temp_data[i].hasOwnProperty("color") && temp_data[i].color){$("#ui_simple div:last-child").css("color",temp_data[i].color);}
-        if (temp_data[i].hasOwnProperty("backgroundcolor") && temp_data[i].backgroundcolor){$("#ui_simple div:last-child").css("background-color",temp_data[i].backgroundcolor);}
+        $ui_view.append(`<div class="button" data-btntype="${temp_data[i].type}" data-target="${temp_data[i].target}">${temp_data[i].text}</div>`);
+        if (temp_data[i].hasOwnProperty("color") && temp_data[i].color){$("#ui_view div:last-child").css("color",temp_data[i].color);}
+        if (temp_data[i].hasOwnProperty("backgroundcolor") && temp_data[i].backgroundcolor){$("#ui_view div:last-child").css("background-color",temp_data[i].backgroundcolor);}
     }
     console.log("Loaded structure "+name);
     return true;
-}
-
+};
 loadViewStructure("main");
 
 //button interaction
@@ -106,6 +110,15 @@ $(document).on("click",".button",function(){
         loadViewStructure(target);
     }
     
+});
+
+//Aside Interaction and changing modes
+$("aside ul li").click((event)=>{
+    let $el = $(event.target);
+    let target = $(event.target).data("target");
+    $("aside ul").children().removeClass("active");
+    $el.addClass("active");
+    changeUI(target);
 });
 
 
