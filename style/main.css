@@ -39,6 +39,7 @@ header a:hover{
 #wrapper{
     display:flex;
     top:200px;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 aside,main {
@@ -70,11 +71,25 @@ aside ul .active:hover{
     background-color:#839eff;
 }
 main{
-    width: calc(100vh - 240px);
+    width: calc(100vw - 240px);
 }
 main > section{
     padding: 20px;
     width: 100%;
+}
+.button{
+    height: 40px;
+    width: 280px;
+    line-height: 40px;
+    margin: 0 5px 5px 0;
+    text-align: center;
+    background-color: #33383d;
+    border: 1px solid #111;
+    display: inline-block;
+    opacity: 0.7;
+}
+.button:hover{
+    opacity: 1.0;
 }
 
 
@@ -98,7 +113,7 @@ main > section{
     border-bottom: 2px solid gray;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin: 5px;
     min-height: 20px;
 }
 #alert_x{

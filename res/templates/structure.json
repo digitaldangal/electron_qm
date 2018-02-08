@@ -1,11 +1,11 @@
 {
     "main":[
         {
-            "text":"You have not configured the structure yet!",
+            "text":"No structure available",
             "type": "file",
             "target": "foo.txt"
         },{
-            "text":"Please enter edit mode.",
+            "text":"Enter edit mode",
             "type":"sub",
             "target": "secondary"
         }

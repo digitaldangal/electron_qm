@@ -9,14 +9,13 @@ let settings,structure;
 window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/jquery.min.js");
 
 //alert function
-const alertbox = function(text,title,level){
+const alertbox = function(text,title){
     if (title) {$("#alert_title").html(title);}else{$("#alert_title").html("Warning");}
     if (text) {$("#alert_container p").html(text);}else{$("#alert_container p").html(trumpipsum);}
     $("#alert").show();
+    //maybe make level cause different behaviour
 }
 let alertcloselistener = $("#error_x").click(()=>{console.log("clicky clickyy");$("#alert").hide;});
-
-alertbox("I have the best text");
 
 //settings - check if they exist and are complete, if not, copy them from res/templates/settings.json and alert the user.
 try {
@@ -31,7 +30,7 @@ try {
 } catch (err) {
     fs.copySync("res/templates/settings.json","settings.json");
     settings = require("./settings.json");
-    //alert function
+    alertbox("Your settings were incomplete or missing and have been reset.");
 }
 if (settings.directory && !settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
 
@@ -42,7 +41,7 @@ try {
 } catch (err) {
     fs.copySync("res/templates/structure.json","structure.json");
     structure = require("./structure.json");
-    //alert function
+    alertbox("We could not find a structure to use for your UI. A default UI has been loaded for your reference.");
 }
 
 
@@ -52,7 +51,7 @@ try {
     console.log("Access to directory is OK");
 } catch (err){
     throw Error("Cannot write to the directory specified!",err);
-    //Alert the user.
+    alertbox("The program is unable to write to the directory specified in the settings, or the directory does not exist! Please double-check your settings.");
 }
 
 
@@ -83,6 +82,8 @@ const loadViewStructure = function(name){
     let temp_data = structure[name];
     for (let i=0;i<temp_data.length;i++){
         $ui_simple.append(`<div class="button" data-btntype="${temp_data[i].type}" data-target="${temp_data[i].target}">${temp_data[i].text}</div>`);
+        if (temp_data[i].hasOwnProperty("color") && temp_data[i].color){$("#ui_simple div:last-child").css("color",temp_data[i].color);}
+        if (temp_data[i].hasOwnProperty("backgroundcolor") && temp_data[i].backgroundcolor){$("#ui_simple div:last-child").css("background-color",temp_data[i].backgroundcolor);}
     }
     console.log("Loaded structure "+name);
     return true;
