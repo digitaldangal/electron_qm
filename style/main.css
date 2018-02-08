@@ -84,6 +84,7 @@ main > section{
     left: 50%;
     top: 50%;
     display: none;
+    user-select: none;
 }
 #alert_container{
     position: relative;
@@ -107,4 +108,9 @@ main > section{
     height: 15px;
     text-align: center;
     line-height: 15px;
+}
+
+
+.noselect {
+    user-select: none;
 }

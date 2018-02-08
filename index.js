@@ -10,11 +10,11 @@ window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/j
 
 //alert function
 const alertbox = function(text,title,level){
-    if (title) {$("#alert_header span").html(title);}else{$("#alert_header span").html("Warning");}
+    if (title) {$("#alert_title").html(title);}else{$("#alert_title").html("Warning");}
     if (text) {$("#alert_container p").html(text);}else{$("#alert_container p").html(trumpipsum);}
     $("#alert").show();
 }
-let alertcloselistener = $("#alert_header i").click(()=>{$("#alert").hide;});
+let alertcloselistener = $("#error_x").click(()=>{console.log("clicky clickyy");$("#alert").hide;});
 
 alertbox("I have the best text");
 
@@ -51,7 +51,7 @@ try {
     fs.accessSync(settings.directory,"fs.constants.W_OK");
     console.log("Access to directory is OK");
 } catch (err){
-    throw error("Cannot write to the directory specified!",err);
+    throw Error("Cannot write to the directory specified!",err);
     //Alert the user.
 }
 
