@@ -44,17 +44,6 @@ try {
     alertbox("We could not find a structure to use for your UI. A default UI has been loaded for your reference.");
 }
 
-
-//check if directory is ok
-try {
-    fs.accessSync(settings.directory,"fs.constants.W_OK");
-    console.log("Access to directory is OK");
-} catch (err){
-    alertbox("The program is unable to write to the directory specified in the settings, or the directory does not exist! Please double-check your settings.");
-    throw Error("Cannot write to the directory specified!",err);
-}
-
-
 //Target dir should have three directories at all times: current, editing, legacy
 //current will contain files accessible by view, Editing will have the versions that are being edited until confirmed good, Legacy has old versions thaat were overwritten through edits 
 //check if dirs exist, if they don't, create them
@@ -67,10 +56,37 @@ const chkmkdir = function(dir){
         fs.mkdirSync(`${settings.directory}${dir}`);
     }
 };
-chkmkdir("current");
-chkmkdir("editing");
-chkmkdir("legacy");
 
+
+
+//Check if Directory is present (not null due to the template), and writable. If so, run chkmkdir() thrice to make required directories.
+if (settings.directory !== null){
+    try {
+        fs.accessSync(settings.directory,"fs.constants.W_OK");
+        console.log("Access to directory is OK");     
+        chkmkdir("current");
+        chkmkdir("editing");
+        chkmkdir("legacy");
+        //Watch directory for changes (use this to alert / check for modified files)
+        //Not completely implemented. Currently just a proof of concept.
+        let watcher = fs.watch(settings.directory,{recursive:true},(type,filename)=>{
+            if (!filename){ //watch is inconsistent. Don't rely on it providing a filename
+                console.log(`fs.watch has detected ${type}, but could not determine a filename.`);
+            } else {
+                console.log(`fs.watch has detected ${type} at ${filename}.`);
+            }
+        });
+        //watcher.close();
+    } catch (err){
+        alertbox("The program is unable to write to the directory specified in the settings, or the directory does not exist! Please double-check your settings.");
+        throw Error("An error occured while setting up the environment in the specified directory. It is likely that you lack write permissions for this directory.",err);
+    }
+} else {
+    alertbox("You haven't specified a directory yet. Please do so by opening the settings tab.","Directory missing");
+}
+
+
+//changing UI modes
 const changeUI = function(type){
     $("main section").hide();
     $(`#ui_${type}`).show();
@@ -120,21 +136,6 @@ $("aside ul li").click((event)=>{
     $el.addClass("active");
     changeUI(target);
 });
-
-
-//Watch directory for changes (use this to alert / check for modified files)
-//Not completely implemented. Currently just a proof of concept.
-let watcher = fs.watch(settings.directory,{recursive:true},(type,filename)=>{
-    if (!filename){ //watch is inconsistent. Don't rely on it providing a filename
-        console.log(`fs.watch has detected ${type}, but could not determine a filename.`);
-    } else {
-        console.log(`fs.watch has detected ${type} at ${filename}.`);
-    }
-});
-
-//watcher.close();
-
-
 
 //Window Interaction
 const remote = require('electron').remote;
