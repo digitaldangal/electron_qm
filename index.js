@@ -1,4 +1,6 @@
-//Setting up environment
+/*
+Environment Setup
+*/
 const shell = require("electron").shell;
 const fs = require("fs-extra");
 require.extensions['.txt'] = function (module, filename) { //making txt files require-able, thanks stackoverflow
@@ -8,7 +10,9 @@ const trumpipsum = require("./res/trumpipsum.txt");
 let settings,structure;
 window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/jquery.min.js");
 
-//alert function
+/*
+Alertboxes - not quite done yet. Currently only supports one at a time, which sucks.
+*/
 const alertbox = function(text,title){
     if (title) {$("#alert_title").html(title);}else{$("#alert_title").html("Warning");}
     if (text) {$("#alert_container p").html(text);}else{$("#alert_container p").html(trumpipsum);}
@@ -17,9 +21,12 @@ const alertbox = function(text,title){
 };
 let alertcloselistener = $("#error_x").click(()=>$("#alert").hide());
 
-//settings - check if they exist and are complete, if not, copy them from res/templates/settings.json and alert the user.
+/*
+Check for existing/valid settings/structure files and create them from template if they don't.
+*/
+//settings
 try {
-    fs.accessSync("settings.json","fs.constants.W_OK"); //Write permission required for UI changes
+    fs.accessSync("settings.json","fs.constants.W_OK"); //Write permission required
     settings = require("./settings.json");
     let requiredsettings = ["directory"];
     for (let i=0;i<requiredsettings.length;i++){
@@ -33,8 +40,7 @@ try {
     alertbox("Your settings were incomplete or missing and have been reset.");
 }
 if (settings.directory && !settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
-
-//structure - check if it exists, else use template structure from res/templates/structure.json and alert the user.
+//structure
 try {
     fs.accessSync("structure.json","fs.constants.W_OK"); //Write permission required for UI changes
     structure = require("./structure.json");
@@ -44,9 +50,13 @@ try {
     alertbox("We could not find a structure to use for your UI. A default UI has been loaded for your reference.");
 }
 
-//Target dir should have three directories at all times: current, editing, legacy
-//current will contain files accessible by view, Editing will have the versions that are being edited until confirmed good, Legacy has old versions thaat were overwritten through edits 
-//check if dirs exist, if they don't, create them
+
+/*
+Check if Directory is present (not null due to the template), and writable. If so, run chkmkdir() thrice to make required directories.
+Target dir should have three directories at all times: current, editing, legacy
+current will contain files accessible by view, Editing will have the versions that are being edited until confirmed good, Legacy has old versions thaat were overwritten through edits 
+check if dirs exist, if they don't, create them
+*/
 const chkmkdir = function(dir){
     try {
         fs.accessSync(`${settings.directory}${dir}`);
@@ -56,10 +66,6 @@ const chkmkdir = function(dir){
         fs.mkdirSync(`${settings.directory}${dir}`);
     }
 };
-
-
-
-//Check if Directory is present (not null due to the template), and writable. If so, run chkmkdir() thrice to make required directories.
 if (settings.directory !== null){
     try {
         fs.accessSync(settings.directory,"fs.constants.W_OK");
@@ -86,13 +92,26 @@ if (settings.directory !== null){
 }
 
 
-//changing UI modes
+/*
+Switching UI modes
+*/
 const changeUI = function(type){
     $("main section").hide();
     $(`#ui_${type}`).show();
 };
-changeUI("view");
+changeUI("view"); //on program start, load view mode
+//Aside Interaction and changing modes
+$("aside ul li").click((event)=>{
+    let $el = $(event.target);
+    let target = $(event.target).data("target");
+    $("aside ul").children().removeClass("active");
+    $el.addClass("active");
+    changeUI(target);
+});
 
+/*
+View Mode
+*/
 const loadViewStructure = function(name){
     let $ui_view = $("#ui_view");
     $ui_view.empty();
@@ -110,7 +129,6 @@ const loadViewStructure = function(name){
     return true;
 };
 loadViewStructure("main");
-
 //button interaction
 $(document).on("click",".button",function(){
     let btntype = $(this).data("btntype");
@@ -128,16 +146,9 @@ $(document).on("click",".button",function(){
     
 });
 
-//Aside Interaction and changing modes
-$("aside ul li").click((event)=>{
-    let $el = $(event.target);
-    let target = $(event.target).data("target");
-    $("aside ul").children().removeClass("active");
-    $el.addClass("active");
-    changeUI(target);
-});
-
-//Window Interaction
+/*
+Window interaction (maximize, minimize, close)
+*/
 const remote = require('electron').remote;
 document.getElementById("button_min").addEventListener("click",(err)=>{
     remote.getCurrentWindow().minimize();
