@@ -18,12 +18,12 @@
             <div id="wrapper">
                     <aside>
                         <ul>
-                            <li class="active" data-target="view"><i class="far fa-home" style="pointer-events:none"></i></li>
-                            <li data-target="edit"><i class="far fa-edit" style="pointer-events:none"></i></li>
-                            <li data-target="versioning"><i class="far fa-code-branch" style="pointer-events:none"></i></li>
-                            <li data-target="settings"><i class="far fa-cog" style="pointer-events:none"></i></li>
-                            <li data-target="info"><i class="far fa-info" style="pointer-events:none"></i></li>
-                            <li data-target="help"><i class="far fa-question-circle" style="pointer-events:none"></i></li>
+                            <li class="active" data-target="view"><i class="far fa-home nopointerevent"></i></li>
+                            <li data-target="edit"><i class="far fa-edit nopointerevent"></i></li>
+                            <li data-target="versioning"><i class="far fa-code-branch nopointerevent"></i></li>
+                            <li data-target="settings"><i class="far fa-cog nopointerevent"></i></li>
+                            <li data-target="info"><i class="far fa-info nopointerevent"></i></li>
+                            <li data-target="help"><i class="far fa-question-circle nopointerevent"></i></li>
                         </ul>
                     </aside>
                     <main>
@@ -31,22 +31,28 @@
                             Whoops! Something went wrong... the view structure wasn't loaded properly.
                         </section>
                         <section id="ui_edit">
-                            edit mode
+                            Edit mode has not been implemented yet. I'm working on it, I swear!
                         </section>
                         <section id="ui_versioning">
-                            versioning mode
+                            Versioning and validation has not been implemented yet. I'm working on it, I swear!
                         </section>
                         <section id="ui_settings">
                             <div>
-                                <div><span>Main directory</span><input type="file" webkitdirectory/><i class="fal fa-save"></i></div>
-                                <span>Choose the directory where your documents reside.</span>
+                                <h1>Main directory</h1>
+                                <div id="directorypicker"><i class="fal fa-folder-open"></i><span></span></div>
+                                <p>Choose the directory where your documents reside.</p>
+                            </div>
+                            <div>
+                                <h1>Language</h1>
+                                <p>Language selection is not available yet.</p>
                             </div>
                         </section>
                         <section id="ui_info">
-                            information
+                            <p>Made with <i class="fas fa-heart"></i> and lots and lots of <i class="fas fa-coffee"></i> by baa baa black goat.</p>
+                            <p>Icons used in this electron project are from the amazing guys over at <a href="https://fontawesome.com/">Font Awesome.  <i class="fab fa-font-awesome"></i></a></p>
                         </section>
                         <section id="ui_help">
-                            help
+                            <img src="https://vignette.wikia.nocookie.net/roblox/images/3/38/Transparent_Troll_Face.png/revision/latest?cb=20120713214853">
                         </section>
                     </main>
             </div>

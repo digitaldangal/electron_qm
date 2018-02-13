@@ -2,6 +2,7 @@
 Environment Setup
 */
 const shell = require("electron").shell;
+const {dialog} = require('electron').remote;
 const fs = require("fs-extra");
 require.extensions['.txt'] = function (module, filename) { //making txt files require-able, thanks stackoverflow
     module.exports = fs.readFileSync(filename, 'utf8');
@@ -39,7 +40,7 @@ try {
     settings = require("./settings.json");
     alertbox("Your settings were incomplete or missing and have been reset.");
 }
-if (settings.directory && !settings.directory.endsWith("/")){settings.directory = settings.directory.concat("/");} 
+if (settings.directory && !settings.directory.endsWith("\\") && !settings.directory.endsWith("/")){settings.directory = settings.directory.concat("\\");} 
 //structure
 try {
     fs.accessSync("structure.json","fs.constants.W_OK"); //Write permission required for UI changes
@@ -98,6 +99,10 @@ Switching UI modes
 const changeUI = function(type){
     $("main section").hide();
     $(`#ui_${type}`).show();
+    //meme
+    if (type=="help"){
+        shell.openExternal("https://www.youtube.com/watch?v=oHg5SJYRHA0");
+    }
 };
 changeUI("view"); //on program start, load view mode
 //Aside Interaction and changing modes
@@ -146,6 +151,26 @@ $(document).on("click",".button",function(){
     
 });
 
+/*
+Settings Mode
+*/
+const updateVisualSettings = function(){
+    $("#directorypicker span").html(settings.directory);
+};
+updateVisualSettings();
+
+$("#directorypicker").click(()=>{
+    dialog.showOpenDialog({title:"Choose a directory...",properties:["openDirectory"]},(filePaths)=>{
+        if (filePaths){
+            settings.directory = filePaths[0];
+            fs.writeFile("settings.json",JSON.stringify(settings),(err)=>{
+                if (err) throw err;
+                console.log("settings.json has been saved.");
+                updateVisualSettings();
+            });
+        }
+    });
+});
 /*
 Window interaction (maximize, minimize, close)
 */
