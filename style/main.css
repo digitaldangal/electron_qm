@@ -129,15 +129,15 @@ main > section{
 }
 
 /*Alert Box formatting*/
-#alert {
+.alert {
     position: absolute;
     left: 50%;
     top: 50%;
-    display: none;
     user-select: none;
     min-width: 250px;
 }
-#alert_container{
+.alert_container{
+    background-color: #2c2f33;
     position: relative;
     left: -50%;
     top: -50%;
@@ -145,14 +145,14 @@ main > section{
     padding: 10px;
     border-radius: 5px;
 }
-#alert_header{
+.alert_header{
     border-bottom: 2px solid gray;
     display: flex;
     justify-content: space-between;
     margin: 5px;
     min-height: 20px;
 }
-#alert_x{
+.alert_x{
     cursor: pointer;
 }
 

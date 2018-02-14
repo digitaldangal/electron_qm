@@ -15,12 +15,11 @@ window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/j
 Alertboxes - not quite done yet. Currently only supports one at a time, which sucks.
 */
 const alertbox = function(text,title){
-    if (title) {$("#alert_title").html(title);}else{$("#alert_title").html("Warning");}
-    if (text) {$("#alert_container p").html(text);}else{$("#alert_container p").html(trumpipsum);}
-    $("#alert").show();
-    //maybe make level cause different behaviour
+    title = title ? title : "Warning";
+    text = text ? text : trumpipsum; 
+    $("body").append(`<div class="alert"><div class="alert_container"><div class="alert_header"><span class="alert_title">${title}</span><div class="error_x">x</div></div><p>${text}</p></div></div>`);
 };
-let alertcloselistener = $("#error_x").click(()=>$("#alert").hide());
+$(document).on("click",".error_x",function(){$(this).closest($(".alert"))[0].remove();});
 
 /*
 Check for existing/valid settings/structure files and create them from template if they don't.
