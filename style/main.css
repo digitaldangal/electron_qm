@@ -156,6 +156,29 @@ main > section{
     cursor: pointer;
 }
 
+#loginbox *{
+    margin-bottom: 5px;
+}
+.login_input{
+    display: flex;
+}
+.login_input label {
+    width: 30px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+}
+.login_input input {
+    border: 1px solid gray;
+    background-color: inherit;
+    color: white;
+    width: calc(100% - 30px);
+    border-radius: 2px;
+    height: 16px;
+    line-height: 16px;
+}
+
+
 .nopointerevent{
     pointer-events:none;
 }

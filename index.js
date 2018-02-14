@@ -9,10 +9,16 @@ require.extensions['.txt'] = function (module, filename) { //making txt files re
 };
 const trumpipsum = require("./res/trumpipsum.txt");
 let settings,structure;
+let currentmode = "view";
+let currentAccess = 0;
+let mode_access = { //maybe allow users to define this at some point?
+    edit: 1,
+    versioning: 2
+}
 window.$ = window.jQuery = window.jquery = require("./node_modules/jquery/dist/jquery.min.js");
 
 /*
-Alertboxes - not quite done yet. Currently only supports one at a time, which sucks.
+Alertboxes somewhat ready. They will probably break once you add some doublequotes. Remember to escape the doublequotes " at some point, aight?
 */
 const alertbox = function(text,title){
     title = title ? title : "Warning";
@@ -96,12 +102,18 @@ if (settings.directory !== null){
 Switching UI modes
 */
 const changeUI = function(type){
-    $("main section").hide();
-    $(`#ui_${type}`).show();
-    //meme
-    if (type=="help"){
-        shell.openExternal("https://www.youtube.com/watch?v=oHg5SJYRHA0");
-    }
+    if (!mode_access.hasOwnProperty(type) || currentAccess >= mode_access[type]){
+        currentmode = type;
+        $("main section").hide();
+        $(`#ui_${type}`).show();
+        //meme
+        if (type=="help"){
+            shell.openExternal("https://www.youtube.com/watch?v=oHg5SJYRHA0");
+        }
+    } else {
+        //prompt login
+        //if valid, change mode
+    } 
 };
 changeUI("view"); //on program start, load view mode
 //Aside Interaction and changing modes
@@ -112,6 +124,13 @@ $("aside ul li").click((event)=>{
     $el.addClass("active");
     changeUI(target);
 });
+
+const loginBox = function(){
+    //make the login box
+    //compare entered data, return respective access if ok
+    //resolve the promise, too!
+    return newAccess;
+};
 
 /*
 View Mode

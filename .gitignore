@@ -2,6 +2,7 @@ node_modules/
 res/fonts/
 settings.json
 structure.json
+logins.json
 current/
 editing/
 legacy/
